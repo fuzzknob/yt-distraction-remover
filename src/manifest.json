@@ -6,7 +6,7 @@
   "description": "Removes all recommendations from youtube",
   "icons": {
     "38": "assets/inverted.png",
-    "48": "assets/inverted.png"
+    "48": "assets/48x48.png"
   },
   "content_scripts": [
     {
