@@ -19,7 +19,8 @@
   },
   "browser_action": {
     "browser_style": true,
-    "default_title": "YT Distraction Remover"
+    "default_title": "YT Distraction Remover",
+    "default_icon": "assets/inverted.png"
   },
   "permissions": [
     "tabs"
