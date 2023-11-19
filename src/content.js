@@ -38,6 +38,7 @@ function main() {
     style.addCSSRule('tp-yt-app-drawer', 'visibility: hidden  !important;')
     style.addCSSRule('#secondary', 'visibility: hidden  !important;')
     style.addCSSRule('#end', 'visibility: hidden  !important;')
+    style.addCSSRule('ytd-rich-shelf-renderer', 'visibility: hidden  !important;'); // YouTube Shorts Recommendation
     hasInserted = true
   }
 
