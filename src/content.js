@@ -34,10 +34,12 @@ function main() {
     if (hasInserted) {
       return
     }
+
     style.addCSSRule('ytd-browse', 'visibility: hidden !important;')
     style.addCSSRule('tp-yt-app-drawer', 'visibility: hidden  !important;')
     style.addCSSRule('#secondary', 'visibility: hidden  !important;')
     style.addCSSRule('#end', 'visibility: hidden  !important;')
+    style.addCSSRule('#contents[style="visibility: visible;"]', 'visibility: hidden !important;')
     hasInserted = true
   }
 
