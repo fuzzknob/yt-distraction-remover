@@ -3,29 +3,38 @@ const LOCAL_STORAGE_KEY = 'EXTENSION-ENABLED'
 
 let isExtensionActive = null
 
-function isExtensionEnabled() {
+async function getStorageItem(key) {
+  const res = await chrome.storage.local.get([key])
+  return res[key]
+}
+
+function setStorageItem(key, value) {
+  return chrome.storage.local.set({[key]: value})
+}
+
+async function isExtensionEnabled() {
   if (isExtensionActive != null) {
     return isExtensionActive
   }
-  let item = localStorage.getItem(LOCAL_STORAGE_KEY)
+  let item = await getStorageItem(LOCAL_STORAGE_KEY)
   if (item == null) {
-    localStorage.setItem(LOCAL_STORAGE_KEY, 'true')
+    await setStorageItem(LOCAL_STORAGE_KEY, true)
     item = 'true'
   }
   isExtensionActive = item === 'true'
   return isExtensionActive
 }
 
-function toggleExtension() {
-  const isEnabled = isExtensionEnabled()
-  localStorage.setItem(LOCAL_STORAGE_KEY, !isEnabled)
+async function toggleExtension() {
+  const isEnabled = await isExtensionEnabled()
+  await setStorageItem(LOCAL_STORAGE_KEY, !isEnabled)
   isExtensionActive = !isEnabled
 }
 
-function syncIcon() {
-  const isEnabled = isExtensionEnabled()
+async function syncIcon() {
+  const isEnabled = await isExtensionEnabled()
   const iconPath = isEnabled ? 'assets/inverted.png': 'assets/logo.png'
-  context.browserAction.setIcon({
+  context.action.setIcon({
     path: iconPath,
   })
 }
@@ -41,21 +50,21 @@ function sendMessageToTabs(message) {
   })
 }
 
-function main() {
-  syncIcon()
-  context.browserAction.onClicked.addListener(() => {
-    toggleExtension()
-    syncIcon()
-    const isEnabled = isExtensionEnabled()
+async function main() {
+  await syncIcon()
+  context.action.onClicked.addListener(async () => {
+    await toggleExtension()
+    await syncIcon()
+    const isEnabled = await isExtensionEnabled()
     if (isEnabled) {
       sendMessageToTabs('enable-extension')
     } else {
       sendMessageToTabs('disable-extension')
     }
   })
-  context.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  context.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     if (message === 'is-enabled') {
-      const isEnabled = isExtensionEnabled()
+      const isEnabled = await isExtensionEnabled()
       sendResponse(isEnabled)
     }
   })

@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "YT Distraction Remover",
+  "version": "0.0.2",
+  "author": "Gagan Rai (@fuzzknob)",
+  "description": "Removes all recommendations from youtube",
+  "icons": {
+    "38": "assets/inverted.png",
+    "48": "assets/48x48.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "YT Distraction Remover",
+    "default_icon": "assets/inverted.png"
+  },
+  "permissions": [
+    "tabs",
+    "storage"
+  ]
+}

@@ -16,11 +16,8 @@ module.exports = {
         {
           from: './src/assets',
           to: 'assets',
-        },
-        {
-          from: './src/manifest.json'
         }
-      ]
+      ],
     })
   ],
   module: {
@@ -32,7 +29,6 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-proposal-class-properties'],
           }
         },
       }
