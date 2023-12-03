@@ -1,15 +1,16 @@
-const context = chrome
+const context = globalThis.browser || globalThis.chrome
+const action = context.browserAction || context.action
 const LOCAL_STORAGE_KEY = 'EXTENSION-ENABLED'
 
 let isExtensionActive = null
 
 async function getStorageItem(key) {
-  const res = await chrome.storage.local.get([key])
+  const res = await context.storage.local.get([key])
   return res[key]
 }
 
 function setStorageItem(key, value) {
-  return chrome.storage.local.set({[key]: value})
+  return context.storage.local.set({[key]: value})
 }
 
 async function isExtensionEnabled() {
@@ -34,7 +35,7 @@ async function toggleExtension() {
 async function syncIcon() {
   const isEnabled = await isExtensionEnabled()
   const iconPath = isEnabled ? 'assets/inverted.png': 'assets/logo.png'
-  context.action.setIcon({
+  action.setIcon({
     path: iconPath,
   })
 }
@@ -52,7 +53,7 @@ function sendMessageToTabs(message) {
 
 async function main() {
   await syncIcon()
-  context.action.onClicked.addListener(async () => {
+  action.onClicked.addListener(async () => {
     await toggleExtension()
     await syncIcon()
     const isEnabled = await isExtensionEnabled()

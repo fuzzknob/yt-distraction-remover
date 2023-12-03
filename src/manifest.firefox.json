@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "YT Distraction Remover",
   "version": "0.0.2",
   "author": "Gagan Rai (@fuzzknob)",
@@ -17,7 +17,8 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "action": {
+  "browser_action": {
+    "browser_style": true,
     "default_title": "YT Distraction Remover",
     "default_icon": "assets/inverted.png"
   },

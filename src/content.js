@@ -1,4 +1,4 @@
-const context = chrome
+const context = globalThis.browser || globalThis.chrome
 
 class Style {
   styleElement
