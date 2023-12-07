@@ -22,7 +22,7 @@ class Style {
   }
 }
 
-function main() {
+async function main() {
   const style = new Style()
   style.initialize()
   let hasInserted = false
@@ -34,7 +34,6 @@ function main() {
     if (hasInserted) {
       return
     }
-
     style.addCSSRule('ytd-browse', 'visibility: hidden !important;')
     style.addCSSRule('tp-yt-app-drawer', 'visibility: hidden  !important;')
     style.addCSSRule('#secondary', 'visibility: hidden  !important;')
@@ -46,13 +45,8 @@ function main() {
   function enableRecommendation() {
     style.removeStyle()
     hasInserted = false
-  }
+  } 
 
-  context.runtime.sendMessage('is-enabled', (isEnabled) => {
-    if (isEnabled) {
-      disableRecommendation()
-    }
-  })
   context.runtime.onMessage.addListener((message) => {
     if (message === 'disable-extension') {
       enableRecommendation()
@@ -63,6 +57,9 @@ function main() {
       return
     }
   })
+
+  context.runtime.sendMessage('tab-init')
 }
 
 main()
+

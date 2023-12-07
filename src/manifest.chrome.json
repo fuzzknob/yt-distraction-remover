@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YT Distraction Remover",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": "Gagan Rai (@fuzzknob)",
   "description": "Removes all recommendations from youtube",
   "icons": {
