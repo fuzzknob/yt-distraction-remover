@@ -8,9 +8,19 @@ const archiver = require('archiver')
 
 const config = require('../webpack.config')
 
+let mode = 'production'
+
+if (process.argv.includes('--dev')) {
+  mode = 'development'
+}
+
 function compileCode() {
   return new Promise((res) => {
-    webpack(config, (err, stats) => {
+    webpack({
+      mode,
+      devtool: false,
+      ...config,
+    }, (err, stats) => {
       if (err) {
         console.log(c.red('ERROR'))
         console.log(c.red(err.message))
@@ -46,7 +56,7 @@ function archiveBuild(fileName, dirName) {
   })
 }
 
-async function bundleExtension(target) {
+async function bundleExtension(target, archive = true) {
   const buildPath = path.resolve(__dirname, `../dist/${target}-build`)
   await fsx.mkdir(buildPath)
   await fsx.copy(path.resolve(__dirname, '../dist/build'), buildPath)
@@ -54,7 +64,7 @@ async function bundleExtension(target) {
     path.resolve(__dirname, `../src/manifest.${target}.json`),
     `${buildPath}/manifest.json`
   )
-  await archiveBuild(`yt-distraction-remover-${target}.zip`, `${target}-build`)
+  archive && await archiveBuild(`yt-distraction-remover-${target}.zip`, `${target}-build`)
 }
 
 async function run() {
@@ -64,9 +74,10 @@ async function run() {
   console.log(c.bgBlue.bold('Bundling...'))
   await bundleExtension('firefox')
   console.log(c.green('Successfully bundled Firefox'))
-  await bundleExtension('chrome')
+  await bundleExtension('chrome', mode === 'production')
   console.log(c.green('Successfully bundled Chrome'))
   console.log(c.bgGreen.bold('Build Success'))
 }
 
 run()
+

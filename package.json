@@ -1,9 +1,10 @@
 {
   "name": "yt-distraction-remover",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Gagan Rai <me@fuzzknob.com>",
   "private": true,
   "scripts": {
+    "dev": "node scripts/build --dev",
     "build": "node scripts/build"
   },
   "devDependencies": {
